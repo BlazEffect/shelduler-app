@@ -51,7 +51,11 @@ class AppNavigationBar extends StatelessWidget {
             IconButton(
               tooltip: 'Settings page',
               icon: const Icon(Icons.settings),
-              onPressed: () {},
+              onPressed: () {
+                if (route != null && route.settings.name != '/settings') {
+                  Navigator.pushNamed(context, '/settings');
+                }
+              },
             ),
           ],
         ),
