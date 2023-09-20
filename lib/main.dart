@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:scheduler/pages/HomePage.dart';
 import 'package:scheduler/pages/SearchPage.dart';
+import 'package:scheduler/pages/SettingsPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (BuildContext context) => const HomePage(),
         '/search': (BuildContext context) => const SearchPage(),
+        '/settings': (BuildContext context) => const SettingsPage(),
       },
     );
   }
