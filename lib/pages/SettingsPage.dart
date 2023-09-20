@@ -23,7 +23,9 @@ class SettingsPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(20),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20),
                     backgroundColor: Colors.purple,

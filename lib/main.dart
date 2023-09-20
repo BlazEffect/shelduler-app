@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:scheduler/pages/HomePage.dart';
+import 'package:scheduler/pages/LoginPage.dart';
+import 'package:scheduler/pages/RegisterPage.dart';
 import 'package:scheduler/pages/SearchPage.dart';
 import 'package:scheduler/pages/SettingsPage.dart';
 
@@ -40,6 +42,8 @@ class MyApp extends StatelessWidget {
         '/': (BuildContext context) => const HomePage(),
         '/search': (BuildContext context) => const SearchPage(),
         '/settings': (BuildContext context) => const SettingsPage(),
+        '/login': (BuildContext context) => const LoginPage(),
+        '/register': (BuildContext context) => const RegisterPage(),
       },
     );
   }
