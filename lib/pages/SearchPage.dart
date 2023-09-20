@@ -8,6 +8,9 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {},
           tooltip: 'Create',

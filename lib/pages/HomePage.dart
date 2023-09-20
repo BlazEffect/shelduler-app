@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
-        
+
         final tasks = createTaskItems(snapshot.data);
 
         return DefaultTabController(
@@ -80,6 +80,7 @@ class HomePage extends StatelessWidget {
           length: tabsCount,
           child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               notificationPredicate: (ScrollNotification notification) {
                 return notification.depth == 1;
               },
@@ -123,52 +124,5 @@ class HomePage extends StatelessWidget {
         );
       }
     );
-
-    /*return DefaultTabController(
-        initialIndex: 0,
-        length: tabsCount,
-        child: Scaffold(
-          appBar: AppBar(
-            notificationPredicate: (ScrollNotification notification) {
-              return notification.depth == 1;
-            },
-            scrolledUnderElevation: 4.0,
-            shadowColor: Theme.of(context).shadowColor,
-            bottom: TabBar(
-              tabs: <Widget>[
-                Tab(
-                  icon: const Icon(Icons.cloud_outlined),
-                  text: titles[0],
-                ),
-                Tab(
-                  icon: const Icon(Icons.list),
-                  text: titles[1],
-                ),
-                Tab(
-                  icon: const Icon(Icons.edit),
-                  text: titles[2],
-                ),
-              ],
-            ),
-          ),
-          body: ListView(
-            padding: const EdgeInsets.all(20),
-            children: tasks
-          ),
-          floatingActionButton: FloatingActionButton(
-              onPressed: () {},
-              tooltip: 'Create',
-              shape: const CircleBorder(),
-              backgroundColor: Colors.deepPurple,
-              foregroundColor: Colors.white,
-              child: const Icon(Icons.add)
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: const AppNavigationBar(
-            fabLocation: FloatingActionButtonLocation.centerDocked,
-            shape: CircularNotchedRectangle(),
-          ),
-        )
-    );*/
   }
 }
