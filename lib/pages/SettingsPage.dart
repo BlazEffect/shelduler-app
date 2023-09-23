@@ -28,7 +28,7 @@ class SettingsPage extends StatelessWidget {
                   },
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.purple,
+                    backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,
                     elevation: 5.0,
                     padding: const EdgeInsets.all(20),
