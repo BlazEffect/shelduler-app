@@ -7,11 +7,23 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        bottomNavigationBar: AppNavigationBar(
-          fabLocation: FloatingActionButtonLocation.centerDocked,
-          shape: CircularNotchedRectangle(),
-        )
+    return Scaffold(
+      appBar: AppBar(
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/settings');
+                }
+            );
+          },
+        ),
+      ),
+      bottomNavigationBar: const AppNavigationBar(
+        fabLocation: FloatingActionButtonLocation.centerDocked,
+        shape: CircularNotchedRectangle(),
+      )
     );
   }
 }
