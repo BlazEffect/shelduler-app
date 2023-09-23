@@ -3,6 +3,8 @@ import 'package:mysql_client/mysql_client.dart';
 
 import 'package:scheduler/blocks/AppNavigationBar.dart';
 
+import 'package:scheduler/database/db_provider.dart';
+
 List<String> titles = <String>[
   'Мои цели',
   'Общие цели',
@@ -12,24 +14,10 @@ List<String> titles = <String>[
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  Future<MySQLConnection> getConnection() async {
-    final conn = await MySQLConnection.createConnection(
-      host: "mysql-8.0",
-      port: 3306,
-      userName: "root",
-      password: "1234",
-      databaseName: "shelduler-mobile", // optional
-    );
-
-    await conn.connect();
-
-    return conn;
-  }
-
-  Future<Iterable<ResultSetRow>> getTasks() async {
-    final conn = await getConnection();
-    final results = await conn.execute('SELECT * FROM tasks');
-    return results.rows;
+  Future<Iterable<ResultSetRow>?> getTasks() async {
+    final conn = await DBProvider.db.database;
+    final results = await conn?.execute('SELECT * FROM tasks');
+    return results?.rows;
   }
 
   List<Widget> createTaskItems(Iterable<ResultSetRow> rowTasks) {
