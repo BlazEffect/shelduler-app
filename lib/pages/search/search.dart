@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scheduler/blocks/AppNavigationBar.dart';
+import 'package:scheduler/widgets/app_navigation_bar.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});

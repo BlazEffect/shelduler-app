@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:scheduler/pages/HomePage.dart';
-import 'package:scheduler/pages/LoginPage.dart';
-import 'package:scheduler/pages/RegisterPage.dart';
-import 'package:scheduler/pages/SearchPage.dart';
-import 'package:scheduler/pages/SettingsPage.dart';
+import 'package:scheduler/pages/home/home.dart';
+import 'package:scheduler/pages/settings/auth/login.dart';
+import 'package:scheduler/pages/settings/auth/register.dart';
+import 'package:scheduler/pages/search/search.dart';
+import 'package:scheduler/pages/settings/settings.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");

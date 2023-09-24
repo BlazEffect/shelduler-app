@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scheduler/blocks/AppNavigationBar.dart';
+import 'package:scheduler/widgets/app_navigation_bar.dart';
 
 import 'package:scheduler/services/auth_service.dart';
 
