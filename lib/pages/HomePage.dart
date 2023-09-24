@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mysql_client/mysql_client.dart';
 
 import 'package:scheduler/blocks/AppNavigationBar.dart';
-
-import 'package:scheduler/database/db_provider.dart';
+import 'package:scheduler/models/task.dart';
 
 List<String> titles = <String>[
   'Мои цели',
@@ -14,19 +12,13 @@ List<String> titles = <String>[
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  Future<Iterable<ResultSetRow>?> getTasks() async {
-    final conn = await DBProvider.db.database;
-    final results = await conn?.execute('SELECT * FROM tasks');
-    return results?.rows;
-  }
+  List<Widget> createTaskItems(List<Task> listTasks) {
+    List<Widget> tasksWidget = <Widget>[];
 
-  List<Widget> createTaskItems(Iterable<ResultSetRow> rowTasks) {
-    List<Widget> tasks = <Widget>[];
+    for (var task in listTasks) {
+      Map<String, dynamic> taskMap = task.toMap();
 
-    for (var rowTask in rowTasks) {
-      String name = rowTask.assoc()['name'] ?? '';
-
-      tasks.add(
+      tasksWidget.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Container(
@@ -36,14 +28,14 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
-              child: Text(name)
+              child: Text(taskMap['name'])
             ),
           )
         )
       );
     }
 
-    return tasks;
+    return tasksWidget;
   }
 
   @override
@@ -51,7 +43,7 @@ class HomePage extends StatelessWidget {
     const int tabsCount = 3;
 
     return FutureBuilder(
-      future: getTasks(),
+      future: TaskModel().getAll(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
