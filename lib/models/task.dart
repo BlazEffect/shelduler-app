@@ -63,7 +63,7 @@ class TaskModel extends BaseModel {
           id: task.assoc()["id"],
           name: task.assoc()["name"],
           description: task.assoc()["description"],
-          userId: task.assoc()["userId"]
+          userId: task.assoc()["user_id"] ?? ""
         )
       );
     }
