@@ -12,10 +12,10 @@ class RegisterPage extends StatelessWidget {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
-                }
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              }
             );
           },
         ),

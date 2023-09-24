@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
   List<Widget> createTaskItems(Iterable<ResultSetRow> rowTasks) {
     List<Widget> tasks = <Widget>[];
 
-    for(var rowTask in rowTasks) {
+    for (var rowTask in rowTasks) {
       String name = rowTask.assoc()['name'] ?? '';
 
       tasks.add(
@@ -92,16 +92,16 @@ class HomePage extends StatelessWidget {
               ),
             ),
             body: ListView(
-                padding: const EdgeInsets.all(20),
-                children: tasks
+              padding: const EdgeInsets.all(20),
+              children: tasks
             ),
             floatingActionButton: FloatingActionButton(
-                onPressed: () {},
-                tooltip: 'Create',
-                shape: const CircleBorder(),
-                backgroundColor: Colors.deepPurple,
-                foregroundColor: Colors.white,
-                child: const Icon(Icons.add)
+              onPressed: () {},
+              tooltip: 'Create',
+              shape: const CircleBorder(),
+              backgroundColor: Colors.deepPurple,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.add)
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: const AppNavigationBar(

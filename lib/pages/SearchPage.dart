@@ -12,12 +12,12 @@ class SearchPage extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          tooltip: 'Create',
-          shape: const CircleBorder(),
-          backgroundColor: Colors.deepPurple,
-          foregroundColor: Colors.white,
-          child: const Icon(Icons.add)
+        onPressed: () {},
+        tooltip: 'Create',
+        shape: const CircleBorder(),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.add)
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const AppNavigationBar(
