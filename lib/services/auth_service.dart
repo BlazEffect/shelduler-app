@@ -17,4 +17,16 @@ class AuthService {
 
     return 'Не правильный email или пароль';
   }
+
+  Future signUp(String email, String password) async {
+    final conn = await DBProvider.db.database;
+    final results = await conn?.execute("SELECT * FROM users WHERE email=$email");
+
+    if (results!.numOfRows > 0) {
+      return "Пользователь с таким email уже существует";
+    }
+
+    await conn?.execute("INSERT INTO users (id, name, email, password) VALUES (NULL, '', '$email', '$password')");
+    return "Успешная регистрация";
+  }
 }
