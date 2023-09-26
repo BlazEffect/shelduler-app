@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:scheduler/widgets/app_navigation_bar.dart';
+
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});
 
@@ -7,6 +9,7 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Календарь'),
         automaticallyImplyLeading: false,
       ),
       body: CustomScrollView(
@@ -52,6 +55,10 @@ class CalendarPage extends StatelessWidget {
             ),
           )
         ]
+      ),
+      bottomNavigationBar: const AppNavigationBar(
+        fabLocation: FloatingActionButtonLocation.centerDocked,
+        shape: CircularNotchedRectangle(),
       ),
     );
   }
