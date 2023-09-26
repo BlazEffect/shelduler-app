@@ -41,14 +41,12 @@ class TaskModel extends BaseModel {
     var data = await super.getById(id);
 
     if (data is Map) {
-      var t = Task(
+      return Task(
           id: data["id"],
           name: data["name"],
           description: data["description"],
           userId: data["user_id"] ?? ""
       );
-
-      return t;
     }
   }
 
