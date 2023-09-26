@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:scheduler/pages/home/create_task.dart';
 
 import 'package:scheduler/pages/home/home.dart';
 import 'package:scheduler/pages/calendar/calendar.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         '/settings': (BuildContext context) => const SettingsPage(),
         '/login': (BuildContext context) => const LoginPage(),
         '/register': (BuildContext context) => const RegisterPage(),
+        '/create_task': (BuildContext context) => const CreateTaskPage(),
       },
     );
   }

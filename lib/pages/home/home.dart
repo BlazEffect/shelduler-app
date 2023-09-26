@@ -100,7 +100,13 @@ class HomePageState extends State<HomePage> {
               children: tasks
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                var route = ModalRoute.of(context);
+
+                if (route != null && route.settings.name != '/create_task') {
+                  Navigator.pushNamed(context, '/create_task');
+                }
+              },
               tooltip: 'Create',
               shape: const CircleBorder(),
               backgroundColor: Colors.deepPurple,
