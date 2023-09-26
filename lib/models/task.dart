@@ -1,5 +1,7 @@
 import 'package:scheduler/utils/base_model.dart';
 
+import 'package:scheduler/database/db_provider.dart';
+
 class Task {
   String id;
   String name;
@@ -44,7 +46,7 @@ class TaskModel extends BaseModel {
       return Task(
           id: data["id"],
           name: data["name"],
-          description: data["description"],
+          description: data["description"] ?? "",
           userId: data["user_id"] ?? ""
       );
     }
@@ -60,7 +62,7 @@ class TaskModel extends BaseModel {
         Task(
           id: task.assoc()["id"],
           name: task.assoc()["name"],
-          description: task.assoc()["description"],
+          description: task.assoc()["description"] ?? "",
           userId: task.assoc()["user_id"] ?? ""
         )
       );
@@ -70,7 +72,15 @@ class TaskModel extends BaseModel {
   }
 
   @override
-  delete(String id) async{
+  delete(String id) async {
     await super.delete(id);
+  }
+
+  create(Task task) async {
+    final conn = await DBProvider.db.database;
+
+    var taskMap = task.toMap();
+
+    await conn?.execute("INSERT INTO $table (id, name, description, user_id) VALUES (NULL, '${taskMap['name']}', '${taskMap['description']}', NULL)");
   }
 }
