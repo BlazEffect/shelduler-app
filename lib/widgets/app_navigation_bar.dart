@@ -46,7 +46,11 @@ class AppNavigationBar extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
               tooltip: 'Calendar page',
               icon: const Icon(Icons.calendar_month),
-              onPressed: () {},
+              onPressed: () {
+                if (route != null && route.settings.name != '/calendar') {
+                  Navigator.pushNamed(context, '/calendar');
+                }
+              },
             ),
             IconButton(
               tooltip: 'Settings page',
