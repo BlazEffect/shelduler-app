@@ -68,4 +68,9 @@ class TaskModel extends BaseModel {
 
     return tasks;
   }
+
+  @override
+  delete(String id) async{
+    await super.delete(id);
+  }
 }
