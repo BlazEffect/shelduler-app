@@ -9,9 +9,14 @@ List<String> titles = <String>[
   'Заметки',
 ];
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<StatefulWidget> createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
   List<Widget> createTaskItems(List<Task> listTasks) {
     List<Widget> tasksWidget = <Widget>[];
 
@@ -27,8 +32,15 @@ class HomePage extends StatelessWidget {
               color: Colors.deepPurple[200],
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Center(
-              child: Text(taskMap['name'])
+            child: ListTile(
+              title: Text(taskMap['name']),
+              trailing: IconButton(
+                onPressed: () {
+                  TaskModel().delete(taskMap['id']);
+                  setState(() {});
+                },
+                icon: const Icon(Icons.delete),
+              ),
             ),
           )
         )
