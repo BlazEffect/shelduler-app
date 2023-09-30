@@ -21,46 +21,53 @@ class AppNavigationBar extends StatelessWidget {
       child: IconTheme(
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              tooltip: 'Home page',
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                if (route != null && route.settings.name != '/') {
-                  Navigator.pushNamed(context, '/');
-                }
-              },
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: IconButton(
+                tooltip: 'Home page',
+                icon: const Icon(Icons.home),
+                onPressed: () {
+                  if (route != null && route.settings.name != '/') {
+                    Navigator.pushNamed(context, '/');
+                  }
+                },
+              )
             ),
-            IconButton(
-              padding: const EdgeInsets.fromLTRB(0, 0, 70, 0),
-              tooltip: 'Search page',
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                if (route != null && route.settings.name != '/search') {
-                  Navigator.pushNamed(context, '/search');
-                }
-              },
+            Expanded(
+              child: IconButton(
+                tooltip: 'Search page',
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  if (route != null && route.settings.name != '/search') {
+                    Navigator.pushNamed(context, '/search');
+                  }
+                },
+              )
             ),
-            IconButton(
-              padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
-              tooltip: 'Calendar page',
-              icon: const Icon(Icons.calendar_month),
-              onPressed: () {
-                if (route != null && route.settings.name != '/calendar') {
-                  Navigator.pushNamed(context, '/calendar');
-                }
-              },
+            const Expanded(child: Text('')),
+            Expanded(
+              child: IconButton(
+                tooltip: 'Calendar page',
+                icon: const Icon(Icons.calendar_month),
+                onPressed: () {
+                  if (route != null && route.settings.name != '/calendar') {
+                    Navigator.pushNamed(context, '/calendar');
+                  }
+                },
+              )
             ),
-            IconButton(
-              tooltip: 'Settings page',
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                if (route != null && route.settings.name != '/settings') {
-                  Navigator.pushNamed(context, '/settings');
-                }
-              },
-            ),
+            Expanded(
+              child: IconButton(
+                tooltip: 'Settings page',
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  if (route != null && route.settings.name != '/settings') {
+                    Navigator.pushNamed(context, '/settings');
+                  }
+                },
+              )
+            )
           ],
         ),
       ),
