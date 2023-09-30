@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
+
 import 'package:scheduler/pages/home/create_task.dart';
 
 import 'package:scheduler/pages/home/home.dart';
@@ -43,6 +46,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        SfGlobalLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ru')
+      ],
+      locale: const Locale('ru'),
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => const HomePage(),
