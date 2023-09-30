@@ -30,9 +30,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   mysql_client : ^0.0.27
   flutter_dotenv: ^5.1.0
-  table_calendar: ^3.0.9
+  syncfusion_flutter_calendar: ^23.1.38
+  syncfusion_localizations: ^23.1.38
+  flutter_datetime_picker_plus:
+    git:
+      url: https://github.com/Team-Picky/flutter_datetime_picker_plus
+      ref: master
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
