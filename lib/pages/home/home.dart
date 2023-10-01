@@ -149,7 +149,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: const AppNavigationBar(
-            fabLocation: FloatingActionButtonLocation.centerDocked,
             shape: CircularNotchedRectangle(),
           ),
         );

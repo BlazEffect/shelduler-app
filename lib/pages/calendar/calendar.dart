@@ -33,7 +33,6 @@ class CalendarPage extends StatelessWidget {
         showNavigationArrow: true,
       ),
       bottomNavigationBar: const AppNavigationBar(
-        fabLocation: FloatingActionButtonLocation.centerDocked,
         shape: CircularNotchedRectangle(),
       ),
     );

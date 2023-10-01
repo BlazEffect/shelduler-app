@@ -123,7 +123,6 @@ class RegisterPageState extends State<RegisterPage> {
         ],
       ),
       bottomNavigationBar: const AppNavigationBar(
-        fabLocation: FloatingActionButtonLocation.centerDocked,
         shape: CircularNotchedRectangle(),
       )
     );

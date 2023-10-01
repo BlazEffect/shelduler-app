@@ -74,7 +74,6 @@ class CreateTaskPageState extends State<CreateTaskPage> {
         ],
       ),
       bottomNavigationBar: const AppNavigationBar(
-        fabLocation: FloatingActionButtonLocation.centerDocked,
         shape: CircularNotchedRectangle(),
       )
     );

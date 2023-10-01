@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({
     super.key,
-    this.fabLocation = FloatingActionButtonLocation.endDocked,
     this.shape = const CircularNotchedRectangle(),
   });
 
-  final FloatingActionButtonLocation fabLocation;
   final NotchedShape? shape;
 
   @override

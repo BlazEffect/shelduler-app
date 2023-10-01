@@ -85,7 +85,6 @@ class LoginPageState extends State<LoginPage> {
         ],
       ),
       bottomNavigationBar: const AppNavigationBar(
-        fabLocation: FloatingActionButtonLocation.centerDocked,
         shape: CircularNotchedRectangle(),
       )
     );

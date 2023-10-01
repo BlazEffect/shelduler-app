@@ -41,7 +41,6 @@ class SettingsPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: const AppNavigationBar(
-        fabLocation: FloatingActionButtonLocation.centerDocked,
         shape: CircularNotchedRectangle(),
       )
     );

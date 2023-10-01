@@ -13,7 +13,6 @@ class SearchPage extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: const AppNavigationBar(
-        fabLocation: FloatingActionButtonLocation.centerDocked,
         shape: CircularNotchedRectangle(),
       ),
     );
