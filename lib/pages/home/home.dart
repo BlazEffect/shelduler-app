@@ -3,12 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:scheduler/widgets/app_navigation_bar.dart';
 import 'package:scheduler/models/task.dart';
 
-List<String> titles = <String>[
-  'Мои цели',
-  'Общие цели',
-  'Заметки',
-];
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -16,7 +10,21 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   List<Widget> createTaskItems(List<Task> listTasks) {
     List<Widget> tasksWidget = <Widget>[];
 
@@ -52,8 +60,6 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const int tabsCount = 3;
-
     return FutureBuilder(
       future: TaskModel().getAll(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -67,58 +73,63 @@ class HomePageState extends State<HomePage> {
 
         final tasks = createTaskItems(snapshot.data);
 
-        return DefaultTabController(
-          initialIndex: 0,
-          length: tabsCount,
-          child: Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              notificationPredicate: (ScrollNotification notification) {
-                return notification.depth == 1;
-              },
-              scrolledUnderElevation: 4.0,
-              shadowColor: Theme.of(context).shadowColor,
-              bottom: TabBar(
-                tabs: <Widget>[
-                  Tab(
-                    icon: const Icon(Icons.cloud_outlined),
-                    text: titles[0],
-                  ),
-                  Tab(
-                    icon: const Icon(Icons.list),
-                    text: titles[1],
-                  ),
-                  Tab(
-                    icon: const Icon(Icons.edit),
-                    text: titles[2],
-                  ),
-                ],
+        return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            bottom: TabBar(
+              controller: _tabController,
+              tabs: const [
+                Tab(
+                  icon: Icon(Icons.task_alt),
+                  text: 'Задачи',
+                ),
+                Tab(
+                  icon: Icon(Icons.folder_outlined),
+                  text: 'Группы',
+                ),
+                Tab(
+                  icon: Icon(Icons.star_outline),
+                  text: 'Избранное',
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: tasks
               ),
-            ),
-            body: ListView(
-              padding: const EdgeInsets.all(20),
-              children: tasks
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                var route = ModalRoute.of(context);
+              ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: tasks
+              ),
+              ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: tasks
+              )
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              var route = ModalRoute.of(context);
 
-                if (route != null && route.settings.name != '/create_task') {
-                  Navigator.pushNamed(context, '/create_task');
-                }
-              },
-              tooltip: 'Create',
-              shape: const CircleBorder(),
-              backgroundColor: Colors.deepPurple,
-              foregroundColor: Colors.white,
-              child: const Icon(Icons.add)
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: const AppNavigationBar(
-              fabLocation: FloatingActionButtonLocation.centerDocked,
-              shape: CircularNotchedRectangle(),
-            ),
-          )
+              if (route != null && route.settings.name != '/create_task') {
+                Navigator.pushNamed(context, '/create_task');
+              }
+            },
+            tooltip: 'Create',
+            shape: const CircleBorder(),
+            backgroundColor: Colors.deepPurple,
+            foregroundColor: Colors.white,
+            child: const Icon(Icons.add)
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: const AppNavigationBar(
+            fabLocation: FloatingActionButtonLocation.centerDocked,
+            shape: CircularNotchedRectangle(),
+          ),
         );
       }
     );
