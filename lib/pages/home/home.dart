@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
 import 'package:scheduler/widgets/app_navigation_bar.dart';
 import 'package:scheduler/models/task.dart';
 
@@ -98,32 +100,52 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
             controller: _tabController,
             children: [
               ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: tasks
+                padding: const EdgeInsets.all(20),
+                children: tasks
               ),
               ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: tasks
+                padding: const EdgeInsets.all(20),
+                children: tasks
               ),
               ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: tasks
+                padding: const EdgeInsets.all(20),
+                children: tasks
               )
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              var route = ModalRoute.of(context);
-
-              if (route != null && route.settings.name != '/create_task') {
-                Navigator.pushNamed(context, '/create_task');
-              }
-            },
-            tooltip: 'Create',
-            shape: const CircleBorder(),
+          floatingActionButton: SpeedDial(
+            icon: Icons.add,
+            activeIcon: Icons.close,
+            childPadding: const EdgeInsets.all(5),
+            spaceBetweenChildren: 4,
             backgroundColor: Colors.deepPurple,
             foregroundColor: Colors.white,
-            child: const Icon(Icons.add)
+            animationCurve: Curves.elasticInOut,
+            renderOverlay: false,
+            children: [
+              SpeedDialChild(
+                child: const Icon(Icons.folder_outlined),
+                backgroundColor: Colors.deepPurple[300],
+                foregroundColor: Colors.white,
+                label: 'Группа',
+                onTap: () {},
+                shape: const CircleBorder(),
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.task_alt),
+                backgroundColor: Colors.deepPurple[300],
+                foregroundColor: Colors.white,
+                label: 'Задача',
+                onTap: () {
+                  var route = ModalRoute.of(context);
+
+                  if (route != null && route.settings.name != '/create_task') {
+                    Navigator.pushNamed(context, '/create_task');
+                  }
+                },
+                shape: const CircleBorder(),
+              )
+            ]
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: const AppNavigationBar(
