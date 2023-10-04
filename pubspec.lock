@@ -121,6 +121,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  google_nav_bar:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: cb7e8c99ae88075dd73f87ae3d60dbdc9e1d042c
+      url: "https://github.com/Inevitable-Design/google_nav_bar"
+    source: git
+    version: "5.0.6"
   intl:
     dependency: transitive
     description:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:scheduler/models/task.dart';
 
 import 'package:scheduler/widgets/app_navigation_bar.dart';
@@ -10,7 +11,23 @@ class CreateTaskPage extends StatefulWidget  {
   State<StatefulWidget> createState() => CreateTaskPageState();
 }
 
-class CreateTaskPageState extends State<CreateTaskPage> {
+class CreateTaskPageState extends State<CreateTaskPage> with TickerProviderStateMixin {
+  //late final TabController _tabController;
+
+  //int _selectedIndex = 0;
+
+  /*@override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }*/
+
   @override
   Widget build(BuildContext context) {
     String name = "";
@@ -20,7 +37,49 @@ class CreateTaskPageState extends State<CreateTaskPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Создание задачи'),
+        title: const Text('Новая задача'),
+        // Customize the TabBar class and get rid of using the library
+        /*bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(80.0),
+            child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              gap: 8,
+              activeColor: Colors.deepPurple,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: const Duration(milliseconds: 400),
+              tabs: const [
+                GButton(
+                  icon: Icon(
+                    Icons.flag,
+                    color: Colors.deepPurple
+                  ),
+                  text: 'Главное'
+                ),
+                GButton(
+                  icon: Icon(
+                    Icons.info,
+                    color: Colors.deepPurple,
+                  ),
+                  text: 'Дополнительное'
+                ),
+                GButton(
+                  icon: Icon(
+                    Icons.alarm_rounded,
+                    color: Colors.deepPurple
+                  ),
+                  text: 'Напоминания'
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              }
+            )
+          )
+        )*/
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

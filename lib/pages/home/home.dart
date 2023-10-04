@@ -103,6 +103,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.all(20),
                 children: tasks
               ),
+              // Temporary display of the same information on all tabs
               ListView(
                 padding: const EdgeInsets.all(20),
                 children: tasks
