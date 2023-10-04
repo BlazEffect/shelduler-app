@@ -3,52 +3,63 @@ import 'package:scheduler/utils/base_model.dart';
 import 'package:scheduler/database/db_provider.dart';
 
 class Task {
-  String id;
+  int? id;
   String name;
-  String description;
-  String userId;
+  String? description;
+  DateTime startFrom;
+  DateTime finishBefore;
+  bool isAllDay;
+  int? userId;
+  int? groupId;
 
   Task({
-    required this.id,
+    this.id,
     required this.name,
-    required this.description,
-    required this.userId,
+    this.description,
+    required this.startFrom,
+    required this.finishBefore,
+    required this.isAllDay,
+    this.userId,
+    this.groupId
   });
 
   factory Task.fromMap(Map<String, dynamic> data) {
     return Task(
-      id: data["id"],
-      name: data["name"],
-      description: data["description"],
-      userId: data["userId"],
+      id: int.parse(data['id']),
+      name: data['name'],
+      description: data['description'],
+      startFrom: DateTime.parse(data['start_from']),
+      finishBefore: DateTime.parse(data['finish_before']),
+      isAllDay: data['is_all_day'] == '1' ? true : false,
+      userId: data['user_id'] == null ? null : int.parse(data['user_id']),
+      groupId: data['group_id'] == null ? null : int.parse(data['group_id'])
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
-      "name": name,
-      "description": description,
-      "userId": userId,
+      'id': id,
+      'name': name,
+      'description': description,
+      'startFrom': startFrom,
+      'finishBefore': finishBefore,
+      'isAllDay': isAllDay,
+      'userId': userId,
+      'groupId': groupId
     };
   }
 }
 
 class TaskModel extends BaseModel {
   @override
-  String table = "tasks";
+  String table = 'tasks';
 
   @override
-  getById(String id) async {
-    var data = await super.getById(id);
+  getById(int id) async {
+    Map<String, dynamic>? data = await super.getById(id);
 
-    if (data is Map) {
-      return Task(
-          id: data["id"],
-          name: data["name"],
-          description: data["description"] ?? "",
-          userId: data["user_id"] ?? ""
-      );
+    if (data != null) {
+      return Task.fromMap(data);
     }
   }
 
@@ -59,14 +70,7 @@ class TaskModel extends BaseModel {
 
     if (data != null) {
       for (var task in data) {
-        tasks.add(
-          Task(
-            id: task.assoc()["id"],
-            name: task.assoc()["name"],
-            description: task.assoc()["description"] ?? "",
-            userId: task.assoc()["user_id"] ?? ""
-          )
-        );
+        tasks.add(Task.fromMap(task.assoc()));
       }
     }
 
@@ -74,7 +78,7 @@ class TaskModel extends BaseModel {
   }
 
   @override
-  delete(String id) async {
+  delete(int id) async {
     await super.delete(id);
   }
 

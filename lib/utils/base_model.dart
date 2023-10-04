@@ -3,7 +3,7 @@ import 'package:scheduler/database/db_provider.dart';
 class BaseModel {
   late String table;
 
-  getById(String id) async {
+  getById(int id) async {
     final conn = await DBProvider.db.database;
     final results = await conn?.execute("SELECT * FROM $table WHERE id=$id");
 
@@ -21,7 +21,7 @@ class BaseModel {
     }
   }
 
-  delete(String id) async {
+  delete(int id) async {
     final conn = await DBProvider.db.database;
     await conn?.execute("DELETE FROM $table WHERE id=$id");
   }
