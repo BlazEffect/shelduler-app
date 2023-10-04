@@ -57,15 +57,17 @@ class TaskModel extends BaseModel {
     var data = await super.getAll();
     List<Task> tasks = [];
 
-    for (var task in data) {
-      tasks.add(
-        Task(
-          id: task.assoc()["id"],
-          name: task.assoc()["name"],
-          description: task.assoc()["description"] ?? "",
-          userId: task.assoc()["user_id"] ?? ""
-        )
-      );
+    if (data != null) {
+      for (var task in data) {
+        tasks.add(
+          Task(
+            id: task.assoc()["id"],
+            name: task.assoc()["name"],
+            description: task.assoc()["description"] ?? "",
+            userId: task.assoc()["user_id"] ?? ""
+          )
+        );
+      }
     }
 
     return tasks;
