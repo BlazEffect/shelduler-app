@@ -9,6 +9,7 @@ class Task {
   DateTime startFrom;
   DateTime finishBefore;
   bool isAllDay;
+  bool isFavorite;
   int? userId;
   int? groupId;
 
@@ -19,18 +20,20 @@ class Task {
     required this.startFrom,
     required this.finishBefore,
     required this.isAllDay,
+    required this.isFavorite,
     this.userId,
     this.groupId
   });
 
   factory Task.fromMap(Map<String, dynamic> data) {
     return Task(
-      id: int.parse(data['id']),
+      id: data['id'] == null ? null : int.parse(data['id']),
       name: data['name'],
       description: data['description'],
       startFrom: DateTime.parse(data['start_from']),
       finishBefore: DateTime.parse(data['finish_before']),
       isAllDay: data['is_all_day'] == '1' ? true : false,
+      isFavorite: data['is_favorite'] == '1' ? true : false,
       userId: data['user_id'] == null ? null : int.parse(data['user_id']),
       groupId: data['group_id'] == null ? null : int.parse(data['group_id'])
     );
@@ -44,8 +47,9 @@ class Task {
       'startFrom': startFrom,
       'finishBefore': finishBefore,
       'isAllDay': isAllDay,
+      'isFavorite': isFavorite,
       'userId': userId,
-      'groupId': groupId
+      'groupId': groupId,
     };
   }
 }
