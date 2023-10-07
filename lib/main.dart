@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
-import 'package:scheduler/pages/home/create_task.dart';
+import 'package:scheduler/pages/home/tasks/create_task.dart';
 
 import 'package:scheduler/pages/home/home.dart';
 import 'package:scheduler/pages/calendar/calendar.dart';
