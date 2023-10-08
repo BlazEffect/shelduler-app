@@ -78,6 +78,6 @@ class GroupModel extends BaseModel {
     var parentId = groupMap['parentId'] ?? 'NULL';
     var userId = groupMap['userId'] ?? 'NULL';
 
-    await conn?.execute("INSERT INTO $table (id, parent_id, name, description user_id) VALUES (${groupMap['id']}, $parentId, '${groupMap['name']}', '${groupMap['description']}', $userId)");
+    await conn?.execute("INSERT INTO `$table` (id, parent_id, name, description, user_id) VALUES (${groupMap['id']}, $parentId, '${groupMap['name']}', '${groupMap['description']}', $userId)");
   }
 }
