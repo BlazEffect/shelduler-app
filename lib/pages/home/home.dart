@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:scheduler/pages/home/favorites/favorite.dart';
 import 'package:scheduler/pages/home/groups/group.dart';
 import 'package:scheduler/pages/home/tasks/task.dart';
 
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<Task> _taskData = [];
   List<Group> _groupData = [];
+  List<Task> _favoriteData = [];
 
   late final TabController _tabController;
 
@@ -38,6 +40,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void updateTaskList(List<Task> data) => setState((){_taskData = data;});
   void updateGroupList(List<Group> data) => setState((){_groupData = data;});
+  void updateFavoriteList(List<Task> data) => setState((){_favoriteData = data;});
 
   void refreshPage() => setState((){});
 
@@ -78,12 +81,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             updateGroupDataState: updateGroupList,
             loadDataFunction: GroupModel().getAll,
           ),
-          // Temporary display of the same information on all tabs
-          TaskTab(
-            taskData: _taskData,
+          FavoriteTab(
+            favoriteData: _favoriteData,
             refreshPage: refreshPage,
-            updateTaskDataState: updateTaskList,
-            loadDataFunction: TaskModel().getAll,
+            updateFavoriteDataState: updateFavoriteList,
+            loadDataFunction: TaskModel().getFavorite,
           )
         ],
       ),
