@@ -102,7 +102,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             backgroundColor: Colors.deepPurple[300],
             foregroundColor: Colors.white,
             label: 'Группа',
-            onTap: () {},
+            onTap: () {
+              var route = ModalRoute.of(context);
+
+              if (route != null && route.settings.name != '/create_group') {
+                Navigator.pushNamed(context, '/create_group');
+              }
+            },
             shape: const CircleBorder(),
           ),
           SpeedDialChild(
@@ -131,11 +137,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<Tab> _createTabs() {
     List<Tab> tabs = [];
 
-    for (var element in _tabsList) {
+    for (var tab in _tabsList) {
       tabs.add(
         Tab(
-          icon: element['icon'],
-          text: element['name'],
+          icon: tab['icon'],
+          text: tab['name'],
         ),
       );
     }

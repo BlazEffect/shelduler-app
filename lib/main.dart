@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 import 'package:scheduler/pages/home/tasks/create_task.dart';
+import 'package:scheduler/pages/home/groups/create_group.dart';
 
 import 'package:scheduler/pages/home/home.dart';
 import 'package:scheduler/pages/calendar/calendar.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => const LoginPage(),
         '/register': (BuildContext context) => const RegisterPage(),
         '/create_task': (BuildContext context) => const CreateTaskPage(),
+        '/create_group': (BuildContext context) => const CreateGroupPage(),
       },
     );
   }
