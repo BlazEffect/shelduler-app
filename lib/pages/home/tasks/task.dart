@@ -6,17 +6,28 @@ class TaskTab extends StatefulWidget {
   const TaskTab({
     super.key,
     required this.taskData,
-    required this.updateDeleteState
+    required this.refreshPage,
+    required this.updateTaskDataState,
+    required this.loadDataFunction
   });
 
   final List<Task> taskData;
-  final VoidCallback updateDeleteState;
+  final VoidCallback refreshPage;
+  final Function updateTaskDataState;
+  final Function loadDataFunction;
 
   @override
   State<StatefulWidget> createState() => _TaskTabState();
 }
 
 class _TaskTabState extends State<TaskTab> {
+  @override
+  void initState() {
+    super.initState();
+
+    _loadData();
+  }
+
   List<Widget> createTaskItems(List<Task> listTasks) {
     List<Widget> tasksWidget = <Widget>[];
 
@@ -37,7 +48,7 @@ class _TaskTabState extends State<TaskTab> {
               trailing: IconButton(
                 onPressed: () {
                   TaskModel().delete(taskMap['id']);
-                  widget.updateDeleteState();
+                  widget.refreshPage();
                 },
                 icon: const Icon(Icons.delete),
               ),
@@ -52,11 +63,19 @@ class _TaskTabState extends State<TaskTab> {
 
   @override
   Widget build(BuildContext context) {
-    final tasks = createTaskItems(widget.taskData);
+    if (widget.taskData.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator()
+      );
+    } else {
+      return ListView(
+        padding: const EdgeInsets.all(20),
+        children: createTaskItems(widget.taskData)
+      );
+    }
+  }
 
-    return ListView(
-      padding: const EdgeInsets.all(20),
-      children: tasks
-    );
+  _loadData() async {
+    widget.updateTaskDataState(await widget.loadDataFunction());
   }
 }
