@@ -21,6 +21,8 @@ class TaskTab extends StatefulWidget {
 }
 
 class _TaskTabState extends State<TaskTab> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -58,12 +60,26 @@ class _TaskTabState extends State<TaskTab> {
       );
     }
 
+    if (tasksWidget.isEmpty) {
+      tasksWidget.add(
+          const Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Нет задач')
+                ],
+              )
+          )
+      );
+    }
+
     return tasksWidget;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.taskData.isEmpty) {
+    if (_isLoading) {
       return const Center(
         child: CircularProgressIndicator()
       );
@@ -77,5 +93,6 @@ class _TaskTabState extends State<TaskTab> {
 
   _loadData() async {
     widget.updateTaskDataState(await widget.loadDataFunction());
+    _isLoading = false;
   }
 }
