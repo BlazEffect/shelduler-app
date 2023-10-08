@@ -62,15 +62,15 @@ class _TaskTabState extends State<TaskTab> {
 
     if (tasksWidget.isEmpty) {
       tasksWidget.add(
-          const Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Нет задач')
-                ],
-              )
+        const Padding(
+          padding: EdgeInsets.only(bottom: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Нет задач')
+            ],
           )
+        )
       );
     }
 
