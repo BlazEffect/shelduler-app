@@ -17,10 +17,10 @@ class GroupTab extends StatefulWidget {
   final Function loadDataFunction;
 
   @override
-  State<StatefulWidget> createState() => _TaskTabState();
+  State<StatefulWidget> createState() => _GroupTabState();
 }
 
-class _TaskTabState extends State<GroupTab> {
+class _GroupTabState extends State<GroupTab> {
   bool _isLoading = true;
 
   @override
