@@ -96,6 +96,6 @@ class TaskModel extends BaseModel {
     var userId = taskMap['userId'] ?? 'NULL';
     var groupId = taskMap['groupId'] ?? 'NULL';
 
-    await conn?.execute("INSERT INTO $table (id, name, description, start_from, finish_before, is_all_day, is_favorite, user_id, group_id) VALUES (${taskMap['id']}, '${taskMap['name']}', '${taskMap['description']}', '${taskMap['startFrom']}', '${taskMap['finishBefore']}', '$isAllDay', '$isFavorite', $userId, $groupId)");
+    await conn?.execute("INSERT INTO `$table` (id, name, description, start_from, finish_before, is_all_day, is_favorite, user_id, group_id) VALUES (${taskMap['id']}, '${taskMap['name']}', '${taskMap['description']}', '${taskMap['startFrom']}', '${taskMap['finishBefore']}', '$isAllDay', '$isFavorite', $userId, $groupId)");
   }
 }
