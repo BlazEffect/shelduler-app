@@ -20,20 +20,39 @@ class SettingsPage extends StatelessWidget {
           ),
           SliverList.list(
             children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.deepPurple,
-                    foregroundColor: Colors.white,
-                    elevation: 5.0,
-                    padding: const EdgeInsets.all(20),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              FractionallySizedBox(
+                widthFactor: 0.95,
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.deepPurple[100],
                   ),
-                  child: const Text('Войти')
+                  child: Column(
+                    children: [
+                      FractionallySizedBox(
+                        widthFactor: 0.95,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            alignment: Alignment.centerLeft,
+                            elevation: const MaterialStatePropertyAll<double>(0),
+                            backgroundColor: MaterialStatePropertyAll<Color>(Colors.deepPurple.shade100),
+                          ),
+                          icon: const Icon(Icons.person),
+                          label: const Text('Войти')
+                        ),
+                      ),
+                    ],
+                  )
                 ),
               )
             ],
