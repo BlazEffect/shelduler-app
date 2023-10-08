@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:scheduler/widgets/app_navigation_bar.dart';
+import 'package:scheduler/widgets/background_for_buttons.dart';
+import 'package:scheduler/widgets/button_without_background.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -21,39 +23,16 @@ class SettingsPage extends StatelessWidget {
           SliverList.list(
             children: [
               const Padding(padding: EdgeInsets.only(top: 10)),
-              FractionallySizedBox(
-                widthFactor: 0.95,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.deepPurple[100],
+              BackgroundForButtons(
+                children: [
+                  ButtonWithoutBackground(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
+                    icon: const Icon(Icons.person),
+                    label: const Text('Войти')
                   ),
-                  child: Column(
-                    children: [
-                      FractionallySizedBox(
-                        widthFactor: 0.95,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            elevation: const MaterialStatePropertyAll<double>(0),
-                            backgroundColor: MaterialStatePropertyAll<Color>(Colors.deepPurple.shade100),
-                          ),
-                          icon: const Icon(Icons.person),
-                          label: const Text('Войти')
-                        ),
-                      ),
-                    ],
-                  )
-                ),
+                ],
               )
             ],
           )
@@ -64,5 +43,4 @@ class SettingsPage extends StatelessWidget {
       )
     );
   }
-
 }
