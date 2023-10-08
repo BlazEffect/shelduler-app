@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:scheduler/pages/home/groups/group.dart';
 import 'package:scheduler/pages/home/tasks/task.dart';
 
 import 'package:scheduler/widgets/app_navigation_bar.dart';
 import 'package:scheduler/models/task.dart';
+import 'package:scheduler/models/group.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,28 +17,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<Task> _taskData = [];
+  List<Group> _groupData = [];
 
   late final TabController _tabController;
 
   final List<Map<String, dynamic>> _tabsList = [
     {
       'name': 'Задачи',
-      'icon': const Icon(Icons.task_alt),
-      'callFunction': TaskModel().getAll
+      'icon': const Icon(Icons.task_alt)
     },
     {
       'name': 'Группы',
-      'icon': const Icon(Icons.folder_outlined),
-      'callFunction': TaskModel().getAll
+      'icon': const Icon(Icons.folder_outlined)
     },
     {
       'name': 'Избранное',
-      'icon': const Icon(Icons.star_outline),
-      'callFunction': TaskModel().getAll
+      'icon': const Icon(Icons.star_outline)
     }
   ];
 
   void updateTaskList(List<Task> data) => setState((){_taskData = data;});
+  void updateGroupList(List<Group> data) => setState((){_groupData = data;});
 
   void refreshPage() => setState((){});
 
@@ -54,8 +55,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    int tabIndex = _tabController.index;
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -71,20 +70,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             taskData: _taskData,
             refreshPage: refreshPage,
             updateTaskDataState: updateTaskList,
-            loadDataFunction: _tabsList[tabIndex]['callFunction'],
+            loadDataFunction: TaskModel().getAll,
+          ),
+          GroupTab(
+            groupData: _groupData,
+            refreshPage: refreshPage,
+            updateGroupDataState: updateGroupList,
+            loadDataFunction: GroupModel().getAll,
           ),
           // Temporary display of the same information on all tabs
           TaskTab(
             taskData: _taskData,
             refreshPage: refreshPage,
             updateTaskDataState: updateTaskList,
-            loadDataFunction: _tabsList[tabIndex]['callFunction'],
-          ),
-          TaskTab(
-            taskData: _taskData,
-            refreshPage: refreshPage,
-            updateTaskDataState: updateTaskList,
-            loadDataFunction: _tabsList[tabIndex]['callFunction'],
+            loadDataFunction: TaskModel().getAll,
           )
         ],
       ),
