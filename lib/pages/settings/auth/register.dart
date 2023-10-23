@@ -9,37 +9,38 @@ class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => RegisterPageState();
+  State<StatefulWidget> createState() => _RegisterPageState();
 }
 
-class RegisterPageState extends State<RegisterPage> {
-  String errorMessage = "";
+class _RegisterPageState extends State<RegisterPage> {
+  String? _emailError;
+  String? _passwordError;
+  String? _repeatPasswordError;
 
-  late TextEditingController passwordController;
+  final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
 
   @override
   void initState() {
     super.initState();
-    passwordController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
-// These all needs to be disposed of once done so let's do that as well.
   @override
   void dispose() {
     super.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    String email = "";
-    String password = "";
-
-    var formKey = GlobalKey<FormState>();
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Регистрация'),
+        title: const Text('Зарегестрироваться'),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -52,55 +53,102 @@ class RegisterPageState extends State<RegisterPage> {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  validator: AuthValidator().emailValidator,
-                  onSaved: (value) => email = value!.trim(),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  validator: AuthValidator().passwordValidator,
-                  controller: passwordController,
-                  onSaved: (value) => password = value!.trim(),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Confirm password'),
-                  validator: (val) => AuthValidator().confirmPasswordValidator(val, passwordController.text),
-                  onSaved: (value) => password = value!.trim(),
-                ),
-                errorWidget(),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final form = formKey.currentState;
-                      final isValid = form!.validate();
-
-                      if (isValid) {
-                        form.save();
-                        var error = await AuthService().signUp(email, password);
-
-                        setState(() {
-                          errorMessage = error;
-                        });
-                      }
-                    },
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 16),
-                      backgroundColor: Colors.deepPurple,
-                      foregroundColor: Colors.white,
-                      elevation: 5.0,
-                      padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                      contentPadding: const EdgeInsets.only(left: 20),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(7)
+                      ),
+                      hintText: 'Email',
                     ),
-                    child: const Text('Зарегистрироваться')
-                  ),
+                    validator: (value) {
+                      _emailError = AuthValidator().emailValidator(value);
+                      return null;
+                    },
+                  )
                 ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                      contentPadding: const EdgeInsets.only(left: 20),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(7)
+                      ),
+                      hintText: 'Пароль',
+                    ),
+                    validator: (value) {
+                      _passwordError = AuthValidator().passwordValidator(value);
+                      return null;
+                    },
+                  )
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                      contentPadding: const EdgeInsets.only(left: 20),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(7)
+                      ),
+                      hintText: 'Подтвердить пароль',
+                    ),
+                    validator: (value) {
+                      _repeatPasswordError = AuthValidator().confirmPasswordValidator(value, _passwordController.text);
+                      return null;
+                    },
+                  )
+                ),
+                FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _submit();
+                      },
+                      style: const ButtonStyle(
+                        textStyle: MaterialStatePropertyAll<TextStyle>(TextStyle(fontSize: 16)),
+                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.deepPurple),
+                        foregroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+                        elevation: MaterialStatePropertyAll<double>(5.0),
+                        padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(vertical: 10, horizontal: 0))
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 0
+                        ),
+                        child: Text('Зарегистрироваться'),
+                      )
+                    ),
+                  ),
+                )
               ],
             )
           ),
@@ -119,8 +167,11 @@ class RegisterPageState extends State<RegisterPage> {
               ),
               child: const Text('Уже зарегестрированы?')
             ),
+          ),
+          const SizedBox(
+            height: 100,
           )
-        ],
+        ]
       ),
       bottomNavigationBar: const AppNavigationBar(
         shape: CircularNotchedRectangle(),
@@ -128,20 +179,36 @@ class RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget errorWidget() {
-    if (errorMessage.isNotEmpty) {
-      return Text(
-        errorMessage,
-        style: const TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300
-        ),
-      );
+  void _submit() async {
+    _formKey.currentState!.validate();
+    _formKey.currentState!.save();
+
+    if (_emailError != null || _passwordError != null || _repeatPasswordError != null) {
+      String? error = '$_emailError\n\n$_passwordError\n\n$_repeatPasswordError';
+
+      snackBarMessage(error, 5000);
     } else {
-      return Container(
-        height: 0.0,
+      Map<String, dynamic> registerData = await AuthService().signUp(_emailController.text, _passwordController.text);
+
+      snackBarMessage(registerData['message'], 1500);
+
+      if (registerData['isRegister']) {
+        pushToLogin();
+      }
+    }
+  }
+
+  pushToLogin() {
+    Navigator.pushNamed(context, '/login');
+  }
+
+  snackBarMessage(String message, int milliseconds) {
+    if (message.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          duration: Duration(milliseconds: milliseconds),
+        )
       );
     }
   }

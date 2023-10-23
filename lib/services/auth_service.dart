@@ -1,4 +1,3 @@
-import 'package:scheduler/database/db_provider.dart';
 import 'package:scheduler/models/user.dart';
 
 class AuthService {
@@ -20,15 +19,26 @@ class AuthService {
     }
   }
 
-  Future signUp(String email, String password) async {
-    final conn = await DBProvider.db.database;
-    final results = await conn?.execute("SELECT * FROM users WHERE email=$email");
+  Future<Map<String, dynamic>> signUp(String email, String password) async {
+    User? user = await UserModel().getByEmail(email);
 
-    if (results!.numOfRows > 0) {
-      return "Пользователь с таким email уже существует";
+    if (user != null) {
+      return {
+        'message': 'Пользователь с таким email уже существует',
+        'isRegister': false
+      };
     }
 
-    await conn?.execute("INSERT INTO users (id, name, email, password) VALUES (NULL, '', '$email', '$password')");
-    return "Успешная регистрация";
+    Map<String, dynamic> userMap = {
+      'name': '',
+      'email': email,
+      'password': password,
+    };
+
+    UserModel().create(User.fromMap(userMap));
+    return {
+      'message': 'Успешная регистрация',
+      'isRegister': true
+    };
   }
 }
