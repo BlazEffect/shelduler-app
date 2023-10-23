@@ -1,21 +1,23 @@
 import 'package:scheduler/database/db_provider.dart';
+import 'package:scheduler/models/user.dart';
 
 class AuthService {
-  Future<String> signIn(String email, String password) async {
-    final conn = await DBProvider.db.database;
-    final results = await conn?.execute('SELECT * FROM users WHERE email="$email"');
+  Future<Map<String, dynamic>> signIn(String email, String password) async {
+    User? user = await UserModel().getByEmail(email);
 
-    for (var user in results!.rows) {
-      String? userPassword = user.assoc()['password'];
-
-      if (userPassword != password) {
-        return 'Не правильный email или пароль';
-      } else {
-        return 'Успешная авторизация';
-      }
+    if (user?.password == password) {
+      return {
+        'message': 'Успешная авторизация',
+        'user': user,
+        'isAuth': true
+      };
+    } else {
+      return {
+        'message': 'Неправильный email или пароль',
+        'user': null,
+        'isAuth': false
+      };
     }
-
-    return 'Не правильный email или пароль';
   }
 
   Future signUp(String email, String password) async {

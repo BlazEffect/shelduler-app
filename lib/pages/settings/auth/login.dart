@@ -3,72 +3,128 @@ import 'package:flutter/material.dart';
 import 'package:scheduler/widgets/app_navigation_bar.dart';
 
 import 'package:scheduler/services/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget  {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => LoginPageState();
+  State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
-  String errorMessage = "";
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String email = "";
-    String password = "";
-
-    var formKey = GlobalKey<FormState>();
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Авторизация'),
+        title: const Text('Войти в аккаунт'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  onSaved: (value) => email = value!.trim(),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  onSaved: (value) => password = value!.trim(),
-                ),
-                errorWidget(),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final form = formKey.currentState;
-                      form?.save();
-                      var error = await AuthService().signIn(email, password);
-
-                      setState(() {
-                        errorMessage = error;
-                      });
-                    },
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 16),
-                      backgroundColor: Colors.deepPurple,
-                      foregroundColor: Colors.white,
-                      elevation: 5.0,
-                      padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                      contentPadding: const EdgeInsets.only(left: 20),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(7)
+                      ),
+                      hintText: 'Email',
                     ),
-                    child: const Text('Войти')
-                  ),
+                  )
                 ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                      contentPadding: const EdgeInsets.only(left: 20),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(7)
+                      ),
+                      hintText: 'Пароль',
+                    ),
+                  )
+                ),
+                FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _submit();
+                      },
+                      style: const ButtonStyle(
+                        textStyle: MaterialStatePropertyAll<TextStyle>(TextStyle(fontSize: 16)),
+                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.deepPurple),
+                        foregroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+                        elevation: MaterialStatePropertyAll<double>(5.0),
+                        padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(vertical: 10, horizontal: 0))
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 0
+                        ),
+                        child: Text('Войти в аккаунт'),
+                      )
+                    ),
+                  ),
+                )
               ],
             )
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-            child: ElevatedButton(
+            child: TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 16),
+                  backgroundColor: Colors.deepPurple,
+                  foregroundColor: Colors.white,
+                  elevation: 5.0,
+                  padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                ),
+                child: const Text('Забыли пароль?')
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+            child: TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/register');
               },
@@ -81,6 +137,9 @@ class LoginPageState extends State<LoginPage> {
               ),
               child: const Text('Зарегестрироваться')
             ),
+          ),
+          const SizedBox(
+            height: 100,
           )
         ],
       ),
@@ -90,20 +149,37 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget errorWidget() {
-    if (errorMessage.isNotEmpty) {
-      return Text(
-          errorMessage,
-          style: const TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300
-          ),
-        );
-    } else {
-      return Container(
-        height: 0.0,
+  void _submit() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final isValid = _formKey.currentState!.validate();
+
+    if (isValid) {
+      _formKey.currentState!.save();
+
+      Map<String, dynamic> authData = await AuthService().signIn(_emailController.text, _passwordController.text);
+
+      snackBarMessage(authData['message']);
+
+      if (authData['isAuth']) {
+        await prefs.setStringList('user', <String>[authData['user'].id.toString(), authData['user'].name, authData['user'].email]);
+
+        pushToMain();
+      }
+    }
+  }
+
+  pushToMain() {
+    Navigator.pushNamed(context, '/');
+  }
+
+  snackBarMessage(String message) {
+    if (message.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          duration: const Duration(milliseconds: 1500),
+        )
       );
     }
   }
