@@ -111,15 +111,15 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
             child: TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 16),
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  elevation: 5.0,
-                  padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-                ),
-                child: const Text('Забыли пароль?')
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 16),
+                backgroundColor: Colors.deepPurple,
+                foregroundColor: Colors.white,
+                elevation: 5.0,
+                padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+              ),
+              child: const Text('Забыли пароль?')
             ),
           ),
           Padding(
@@ -152,20 +152,16 @@ class _LoginPageState extends State<LoginPage> {
   void _submit() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final isValid = _formKey.currentState!.validate();
+    _formKey.currentState!.save();
 
-    if (isValid) {
-      _formKey.currentState!.save();
+    Map<String, dynamic> authData = await AuthService().signIn(_emailController.text, _passwordController.text);
 
-      Map<String, dynamic> authData = await AuthService().signIn(_emailController.text, _passwordController.text);
+    snackBarMessage(authData['message']);
 
-      snackBarMessage(authData['message']);
+    if (authData['isAuth']) {
+      await prefs.setStringList('user', <String>[authData['user'].id.toString(), authData['user'].name, authData['user'].email]);
 
-      if (authData['isAuth']) {
-        await prefs.setStringList('user', <String>[authData['user'].id.toString(), authData['user'].name, authData['user'].email]);
-
-        pushToMain();
-      }
+      pushToMain();
     }
   }
 
