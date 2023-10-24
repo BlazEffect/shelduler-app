@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import 'package:scheduler/widgets/app_navigation_bar.dart';
 
 import 'package:scheduler/services/auth_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late Box user;
+
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _emailController;
@@ -23,6 +25,8 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+
+    user = Hive.box('user');
   }
 
   @override
@@ -30,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+
+    Hive.close();
   }
 
   @override
@@ -150,8 +156,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _submit() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    final user = Hive.box('user');
     _formKey.currentState!.save();
 
     Map<String, dynamic> authData = await AuthService().signIn(_emailController.text, _passwordController.text);
@@ -159,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
     snackBarMessage(authData['message']);
 
     if (authData['isAuth']) {
-      await prefs.setStringList('user', <String>[authData['user'].id.toString(), authData['user'].name, authData['user'].email]);
+      await user.add(authData['user'].toMap());
 
       pushToMain();
     }
