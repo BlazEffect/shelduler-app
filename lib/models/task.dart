@@ -1,16 +1,29 @@
+import 'package:hive/hive.dart';
 import 'package:scheduler/utils/base_model.dart';
 
 import 'package:scheduler/database/db_provider.dart';
 
-class Task {
+part 'task.g.dart';
+
+@HiveType(typeId: 0)
+class Task extends HiveObject {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   String name;
+  @HiveField(2)
   String? description;
+  @HiveField(3)
   DateTime startFrom;
+  @HiveField(4)
   DateTime finishBefore;
+  @HiveField(5)
   bool isAllDay;
+  @HiveField(6)
   bool isFavorite;
+  @HiveField(7)
   int? userId;
+  @HiveField(8)
   int? groupId;
 
   Task({

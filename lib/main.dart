@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:scheduler/models/task.dart';
 
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
@@ -16,6 +18,11 @@ import 'package:scheduler/pages/settings/auth/register.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
+  await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
+  await Hive.openBox('user');
+  await Hive.openBox('tasks');
+  await Hive.openBox('groups');
 
   runApp(const MyApp());
 }
@@ -27,6 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Планировщик',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
