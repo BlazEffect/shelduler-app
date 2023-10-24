@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:scheduler/models/task.dart';
 
@@ -23,9 +25,15 @@ class TaskTab extends StatefulWidget {
 class _TaskTabState extends State<TaskTab> {
   bool _isLoading = true;
 
+  late Box user;
+  late Box tasks;
+
   @override
   void initState() {
     super.initState();
+
+    user = Hive.box('user');
+    tasks = Hive.box('tasks');
 
     _loadData();
   }
@@ -92,7 +100,16 @@ class _TaskTabState extends State<TaskTab> {
   }
 
   _loadData() async {
-    widget.updateTaskDataState(await widget.loadDataFunction());
+    List<Task> taskList = [];
+    
+    for(int i = 0; i < tasks.length; i++){
+      taskList.add(tasks.getAt(i));
+    }
+    
+    var data = user.length > 0 ? widget.loadDataFunction() : taskList;
+
+    widget.updateTaskDataState(await data);
+
     _isLoading = false;
   }
 }
