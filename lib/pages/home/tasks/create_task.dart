@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 //import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:scheduler/models/task.dart';
@@ -309,6 +310,8 @@ class _CreateTaskPageState extends State<CreateTaskPage> with TickerProviderStat
   }
 
   void _submitForm() {
+    final tasks = Hive.box('tasks');
+    final user = Hive.box('user');
     final isValid = _formKey.currentState!.validate();
 
     Map<String, dynamic> taskMap = {
@@ -323,7 +326,11 @@ class _CreateTaskPageState extends State<CreateTaskPage> with TickerProviderStat
     if (isValid) {
       _formKey.currentState!.save();
 
-      TaskModel().create(Task.fromMap(taskMap));
+      if (user.length > 0) {
+        TaskModel().create(Task.fromMap(taskMap));
+      } else {
+        tasks.add(Task.fromMap(taskMap));
+      }
     }
   }
 }
